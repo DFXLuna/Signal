@@ -3,12 +3,14 @@
 #define NUMPYIO_H
 #include<fstream>
 using std::ifstream;
+using std::ofstream;
 #include<vector>
 using std::vector;
 #include<string>
 using std::string;
 #include<sstream>
 using std::istringstream;
+using std::ostringstream;
 #include<iostream>
 using std::cerr;
 using std::endl;
@@ -18,7 +20,7 @@ vector< vector< float > > readNumpyArray( string filePath ){
     in.open( filePath );
     vector< vector< float> > ret;
 
-    if( !in.good() ){ 
+    if( !in.is_open() ){ 
         cerr << "Error opening " << filePath << " in readNumpyArray." << endl;
         in.close();
         return vector< vector< float > >();
@@ -40,6 +42,7 @@ vector< vector< float > > readNumpyArray( string filePath ){
         }
 
     }
+    in.close();
     return ret;
 }
 
@@ -53,6 +56,29 @@ vector< vector< float > > transpose( const vector< vector< float > >& m ){
         ret.push_back( row );
     }
     return ret;
+}
+
+void writeNumpyArray( const vector< vector< float > >& m, string filePath ){
+    ofstream out;
+    out.open( filePath );
+    
+    if( !out.is_open() ){
+        cerr << "Error opening " << filePath << " in writeNumpyArray." << endl;
+        out.close();
+        return;
+    }
+
+    for( size_t i = 0; i < m.size(); i++ ){
+        ostringstream linestream;
+        for( size_t j = 0; j < m[i].size(); j++ ){
+            linestream << m[i][j] << " ";
+        }
+        linestream << endl;
+        out << linestream.str();
+    }
+    out << endl;
+    
+    out.close();
 }
 
 #endif
