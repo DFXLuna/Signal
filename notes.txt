@@ -1,10 +1,12 @@
 Week 1 notes
 
 - Output of FFT is in whole number frequencies where as musical notes usually have decimal points
-the difference matters less as pitch increases but, in the effort of creating a bass pedal, this will matter.
+the difference matters less as pitch increases( at ~ 500Hz it becomes difficult to tell ) but, 
+in the effort of creating a bass pedal, this will matter.
 
 - In light of the above, I will be using librosa's stft as the main engine for input processing instead
 - Music Information Retrieval
 
-- The input preprocessing pipeline has been established. The STFT of the input and target wav files are created and stored as text
+- The input preprocessing pipeline has been established. The STFT of the input and target files are created and stored as text
 - Embedding Python in C++ code has been implemented, this will be used to take advantage of librosa from c++.
+- Several functions for dealing with numpy arrays( stored as text ) have been implemented for c++.

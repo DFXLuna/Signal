@@ -5,4 +5,5 @@ FFT/*
 *__pycache__*
 *.swp
 *.flac
-
+*.o
+main

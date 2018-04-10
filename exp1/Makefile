@@ -8,9 +8,12 @@ CXXPLFLAGS=-L/usr/lib -lpython3.5m -lpthread -ldl  -lutil -lm  -Xlinker -export-
 
 .PHONY: clean
 
-program6: main.cpp
+main: main.cpp runPython.h numpyIO.h
 	${CXX} ${CXXFLAGS} ${CXXPFLAGS} main.cpp -c -o main.o
 	${CXX} -o main main.o ${CXXPLFLAGS}
+noPython: main.cpp numpyIO.h
+	${CXX} ${CXXFLAGS} main.cpp -o main
+
 clean:
 	/bin/rm -f main main.o
 	
