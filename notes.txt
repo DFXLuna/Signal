@@ -10,3 +10,5 @@ in the effort of creating a bass pedal, this will matter.
 - The input preprocessing pipeline has been established. The STFT of the input and target files are created and stored as text
 - Embedding Python in C++ code has been implemented, this will be used to take advantage of librosa from c++.
 - Several functions for dealing with numpy arrays( stored as text ) have been implemented for c++.
+
+- I've modified the neural network code from in class and cleaned it up.

@@ -8,10 +8,11 @@ CXXPLFLAGS=-L/usr/lib -lpython3.5m -lpthread -ldl  -lutil -lm  -Xlinker -export-
 
 .PHONY: clean
 
-main: main.cpp runPython.h numpyIO.h
+main: main.cpp runPython.h numpyIO.h Ind_NeuralNetwork.hpp Ind_Neuron.hpp Ind_Connection.hpp
 	${CXX} ${CXXFLAGS} ${CXXPFLAGS} main.cpp -c -o main.o
 	${CXX} -o main main.o ${CXXPLFLAGS}
-noPython: main.cpp numpyIO.h
+
+noPython: main.cpp numpyIO.h Ind_NeuralNetwork.hpp Ind_Neuron.hpp Ind_Connection.hpp
 	${CXX} ${CXXFLAGS} main.cpp -o main
 
 clean:
