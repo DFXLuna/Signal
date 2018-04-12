@@ -1,5 +1,4 @@
 // Modified from Joost Huizinga's original Ind_Neuron.hpp
-// I've cleaned it up as much as I can
 
 #ifndef IND_NEURON_HPP_
 #define IND_NEURON_HPP_

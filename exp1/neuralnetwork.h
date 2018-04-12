@@ -19,6 +19,9 @@ public:
     NeuralNetwork(size_t numberOfNeurons = 0, double minWeight = 0.0, double maxWeight = 0.0, double weightMutRate = 0.0, 
     double neuronMutRate = 0.0, double addNeuronMutRate = 0.0, double addConnectionMutRate = 0.0);
 
+    void setAllWeights( double value );
+    void setAllBiases( double value );
+
     void addNeuron();
     void addConnection(size_t sourceIndex, size_t targetIndex, double weight = 0.0);
     
@@ -40,7 +43,7 @@ public:
     vector<Neuron_t>& getNeurons();
     vector<Connection_t>& getConnections();
 
-    void setValue(size_t neuronIndex, double value)
+    void setValue(size_t neuronIndex, double value);
     double getValue(size_t neuronIndex);
 
     void setAddNeuronMutationRate(double addNeuronMutRate);
@@ -82,9 +85,9 @@ protected:
     size_t _nbOfOutputs;
 };
 
-template< typename Neuron_t, Connection_t >
-NeuralNetwork<Neuron_t, Connection_t>::NeuralNetwork(size_t numberOfNeurons = 0, double minWeight = 0.0, double maxWeight = 0.0, double weightMutRate = 0.0, 
-double neuronMutRate = 0.0, double addNeuronMutRate = 0.0, double addConnectionMutRate = 0.0){
+template< typename Neuron_t, typename Connection_t >
+NeuralNetwork<Neuron_t, Connection_t>::NeuralNetwork( size_t numberOfNeurons, double minWeight, double maxWeight, double weightMutRate, 
+double neuronMutRate, double addNeuronMutRate , double addConnectionMutRate ){
         _minWeight = minWeight;
         _maxWeight = maxWeight;
 
@@ -99,20 +102,34 @@ double neuronMutRate = 0.0, double addNeuronMutRate = 0.0, double addConnectionM
         }
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
+void NeuralNetwork<Neuron_t, Connection_t>::setAllWeights( double value ){
+    for( auto& c : _connections ){
+        c.setWeight( value );
+    }
+}
+
+template< typename Neuron_t, typename Connection_t >
+void NeuralNetwork<Neuron_t, Connection_t>::setAllBiases( double value ){
+    for( auto& n : _neurons ){
+        n.setBias( value );
+    }
+}
+
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::addNeuron(){
         _neurons.push_back(Neuron_t());
 }
 
-template< typename Neuron_t, Connection_t >
-void NeuralNetwork<Neuron_t, Connection_t>::addConnection(size_t sourceIndex, size_t targetIndex, double weight = 0.0){
+template< typename Neuron_t, typename Connection_t >
+void NeuralNetwork<Neuron_t, Connection_t>::addConnection( size_t sourceIndex, size_t targetIndex, double weight ){
         _neurons[sourceIndex].addOutgoing(_connections.size());
         _neurons[targetIndex].addIncoming(_connections.size());
         _connections.push_back(Connection(sourceIndex, targetIndex, weight));
 }
 
-template< typename Neuron_t, Connection_t >
-void NeuralNetwork<Neuron_t, Connection_t>::step(){
+template< typename Neuron_t, typename Connection_t >
+void NeuralNetwork<Neuron_t, Connection_t>::step() {
     for(size_t i=0; i<_neurons.size(); ++i){
         _neurons[i].setIncoming(0);
     }
@@ -127,8 +144,9 @@ void NeuralNetwork<Neuron_t, Connection_t>::step(){
     for(size_t i=0; i<_neurons.size(); ++i){
         _neurons[i].propagate();
     }
+}
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::randomize(){
     for(size_t i=0; i<_neurons.size(); ++i){
         _neurons[i].setBias(randDouble(_minWeight, _maxWeight));
@@ -139,7 +157,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::randomize(){
     }
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::logActivation(std::ofstream& activationFile){
     for(int i=0; i<_neurons.size(); ++i){
         activationFile << _neurons[i].getValue() << " ";
@@ -147,24 +165,24 @@ void NeuralNetwork<Neuron_t, Connection_t>::logActivation(std::ofstream& activat
     activationFile << "\n";
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::reset(){
     for(size_t i=0; i<_neurons.size(); ++i){
         _neurons[i].reset();
     }
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setWeightMutationRate(double weightMutRate){
     _weightMutRate = weightMutRate;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setNeuronMutationRate(double neuronMutRate){
     _neuronMutRate = neuronMutRate;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::mutate(){
     _mutateWeights();
     _mutateNeurons();
@@ -176,32 +194,32 @@ void NeuralNetwork<Neuron_t, Connection_t>::mutate(){
     }
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setMinWeight(double minWeight){
     _minWeight = minWeight;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setMaxWeight(double maxWeight){
     _maxWeight = maxWeight;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 vector<Neuron_t>& NeuralNetwork<Neuron_t, Connection_t>::getNeurons(){
     return _neurons;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 vector<Connection_t>& NeuralNetwork<Neuron_t, Connection_t>::getConnections(){
     return _connections;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setValue(size_t neuronIndex, double value){
     _neurons[neuronIndex].setValue(value);
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
     if(neuronIndex >= _neurons.size()){
         std::cerr << "Ind_NeuralNetwork.hpp: Index out of bounds! Index: " 
@@ -210,17 +228,17 @@ double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
     return _neurons[neuronIndex].getValue();
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setAddNeuronMutationRate(double addNeuronMutRate){
     _addNeuronMutRate = addNeuronMutRate;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setAddConnectionMutationRate(double addConnectionMutRate){
     _addConnectionMutRate = addConnectionMutRate;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 double NeuralNetwork<Neuron_t, Connection_t>::getOutputValue(size_t neuronIndex){
     if(neuronIndex >= _nbOfOutputs){
         std::cerr << "Index goes beyond outputs! Index: " 
@@ -229,34 +247,34 @@ double NeuralNetwork<Neuron_t, Connection_t>::getOutputValue(size_t neuronIndex)
     return getValue(_nbOfInputs + neuronIndex);
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 size_t NeuralNetwork<Neuron_t, Connection_t>::getNbOfInputs(){
     return _nbOfInputs;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setNbOfInputs(size_t nbOfInputs){
     _nbOfInputs = nbOfInputs;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 size_t NeuralNetwork<Neuron_t, Connection_t>::getNbOfOutputs(){
     return _nbOfOutputs;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::setNbOfOutputs(size_t nbOfOutputs){
     _nbOfOutputs = nbOfOutputs;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 double NeuralNetwork<Neuron_t, Connection_t>::clip(double value, double min, double max){
     if(value > max) return max;
     if(value < min) return min;
     return value;
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::_mutateWeights(){
     for(size_t i=0; i<_connections.size(); ++i){
         if(randDouble() < _weightMutRate){
@@ -266,7 +284,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::_mutateWeights(){
     }
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::_mutateNeurons(){
     for(size_t i=0; i<_neurons.size(); ++i){
         if(randDouble() < _neuronMutRate){
@@ -276,7 +294,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::_mutateNeurons(){
     }
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::_addRandomNeuron(){
     if(_connections.size() < 1) return;
     addNeuron();
@@ -291,7 +309,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::_addRandomNeuron(){
     addConnection(newNeuronIndex, target, weight);
 }
 
-template< typename Neuron_t, Connection_t >
+template< typename Neuron_t, typename Connection_t >
 void NeuralNetwork<Neuron_t, Connection_t>::_addRandomConnection(){
     size_t source_neuron = randIndex(0, _neurons.size());
     size_t target_neuron = randIndex(_nbOfInputs, _neurons.size());
