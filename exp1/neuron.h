@@ -69,7 +69,10 @@ public:
 
     void propagate(){
         //_value = tanh((_incoming + _bias) * _lambda);
+        // leaky reLU for testing
         _value = _incoming + _bias;
+        if( _incoming + _bias <= 0 ){ _value *= 0.3; }
+         
     }
 
 

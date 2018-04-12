@@ -19,6 +19,9 @@ public:
     NeuralNetwork(size_t numberOfNeurons = 0, double minWeight = 0.0, double maxWeight = 0.0, double weightMutRate = 0.0, 
     double neuronMutRate = 0.0, double addNeuronMutRate = 0.0, double addConnectionMutRate = 0.0);
 
+    void setFitness( double value );
+    double getFitness();
+
     void setAllWeights( double value );
     void setAllBiases( double value );
 
@@ -84,6 +87,9 @@ protected:
     //Numbers of inputs and outputs
     size_t _nbOfInputs;
     size_t _nbOfOutputs;
+
+    // Fitness for evolving
+    double fitness;
 };
 
 template< typename Neuron_t, typename Connection_t >
@@ -101,6 +107,16 @@ double neuronMutRate, double addNeuronMutRate , double addConnectionMutRate ){
         for(size_t i=0; i<numberOfNeurons; ++i){
             addNeuron();
         }
+}
+
+template< typename Neuron_t, typename Connection_t >
+void NeuralNetwork<Neuron_t, Connection_t>::setFitness( double value ){
+    fitness = value;
+}
+
+template< typename Neuron_t, typename Connection_t >
+double NeuralNetwork<Neuron_t, Connection_t>::getFitness(){
+    return fitness;
 }
 
 template< typename Neuron_t, typename Connection_t >
@@ -153,7 +169,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::randomize(){
         _neurons[i].setBias(randDouble(_minWeight, _maxWeight));
     }
 
-    for(int i=0; i<_connections.size(); ++i){
+    for(size_t i=0; i<_connections.size(); ++i){
         _connections[i].setWeight(randDouble(_minWeight, _maxWeight));
     }
 }
@@ -325,26 +341,4 @@ void NeuralNetwork<Neuron_t, Connection_t>::_addRandomConnection(){
     size_t target_neuron = randIndex(_nbOfInputs, _neurons.size());
     addConnection(source_neuron, target_neuron, randDouble(_minWeight, _maxWeight));
 }
-
-/**
- * Convenience function for writing network connections to a file-stream.
- */
-std::ostream& operator<<(std::ostream& is, NeuralNetwork<Neuron, Connection>& obj){
-    vector<Neuron> neurons = obj.getNeurons();
-    vector<Connection> connections = obj.getConnections();
-
-    //Write neurons
-    is << neurons.size() << " ";
-    is << connections.size() << " ";
-    for(size_t i=0; i<neurons.size(); ++i){
-        is << neurons[i].getBias() << " ";
-    }
-
-    //Write connections
-    for(size_t i=0; i<connections.size(); ++i){
-        is << connections[i].getSource() << " " << connections[i].getTarget() << " "<< connections[i].getWeight()<< " ";
-    }
-    return is;
-}
-
 #endif
