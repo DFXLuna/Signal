@@ -138,7 +138,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::step() {
         size_t sourceIndex = _connections[i].getSource();
         size_t targetIndex = _connections[i].getTarget();
         double weight = _connections[i].getWeight();
-        _neurons[targetIndex].updateIncoming(_neurons[sourceIndex].getValue()*weight);
+        _neurons[targetIndex].updateIncoming(_neurons[sourceIndex].getValue() * weight);
     }
 
     for(size_t i=0; i<_neurons.size(); ++i){

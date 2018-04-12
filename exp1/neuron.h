@@ -68,7 +68,8 @@ public:
     }
 
     void propagate(){
-        _value = tanh((_incoming + _bias) * _lambda);
+        //_value = tanh((_incoming + _bias) * _lambda);
+        _value = _incoming + _bias;
     }
 
 
