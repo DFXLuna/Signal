@@ -45,6 +45,7 @@ public:
 
     void setValue(size_t neuronIndex, double value);
     double getValue(size_t neuronIndex);
+    vector< float > getAllOutputs();
 
     void setAddNeuronMutationRate(double addNeuronMutRate);
     void setAddConnectionMutationRate(double addConnectionMutRate);
@@ -226,6 +227,15 @@ double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
         << neuronIndex << " size: " << _neurons.size() << std::endl;
     }
     return _neurons[neuronIndex].getValue();
+}
+
+template< typename Neuron_t, typename Connection_t >
+vector<float> NeuralNetwork<Neuron_t, Connection_t>::getAllOutputs(){
+    vector<float> ret;
+    for( size_t i = _nbOfInputs; i < _neurons.size(); i++ ){
+        ret.push_back( _neurons[i].getValue() );
+    }
+    return ret;
 }
 
 template< typename Neuron_t, typename Connection_t >

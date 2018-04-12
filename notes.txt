@@ -12,3 +12,9 @@ in the effort of creating a bass pedal, this will matter.
 - Several functions for dealing with numpy arrays( stored as text ) have been implemented for c++.
 
 - I've modified the neural network code from in class and cleaned it up.
+
+- I sucessfully passed an audio file through the network and reconstructed it without loss.
+The network was set to not modify the input.
+
+- The project architecture was tuned so that all STFTs can be applied before running the network, the network
+now operates directly on the STFT values.

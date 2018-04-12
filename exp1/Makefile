@@ -16,6 +16,6 @@ noPython: main.cpp numpyIO.h neuralnetwork.h neuron.h connection.h
 	${CXX} ${CXXFLAGS} main.cpp -o main
 
 clean:
-	/bin/rm -f main main.o
+	/bin/rm -f main main.o *.csv
 	
 
