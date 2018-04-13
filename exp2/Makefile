@@ -13,8 +13,8 @@ CXXPLFLAGS=-L/usr/lib -lpython3.5m -lpthread -ldl  -lutil -lm  -Xlinker -export-
 
 .PHONY: clean
 
-main: main.cpp fitness.cpp numpyIO.cpp neuralnetwork.h neuron.h connection.h evolve.h
-	${CXX} ${CXXFLAGS} main.cpp numpyIO.cpp fitness.cpp -o main
+main: main.cpp fitness.cpp numpyIO.cpp neuralnetwork.h neuron.h connection.h evolve.h CPPN.h CPPNneuron.h
+	${CXX} ${CXXFLAGS} main.cpp numpyIO.cpp fitness.cpp CPPN.cpp -o main
 
 clean:
 	/bin/rm -f main main.o *.csv
