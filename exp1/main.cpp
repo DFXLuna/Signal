@@ -10,27 +10,41 @@ using std::size_t;
 using std::ofstream;
 #include"neuralnetwork.h"
 #include"fitness.h"
+#include"evolve.h"
 size_t NEURONS = 2050;
+void runRead( vector< vector< float > >&& real, NeuralNetwork<>& nn );
 
-// TODO 
-// remove the input changing part of evaluate
-// Add an EA
 int main(){
 
     vector< vector< float > > real = readNumpyArray( "./stft/fund.stft" );
     vector< vector< float > > target = readNumpyArray( "./stft/Harm1.stft" );
-    NeuralNetwork<> nn( NEURONS, -5, 5, 0.5, 0.5, 0.0, 0.0 );
+    NeuralNetwork<> nn( NEURONS, -5, 5, 0.5, 0.5, 0, 0 );
     for( size_t i = 0; i < NEURONS / 2; i++ ){
         nn.addConnection( i, i + NEURONS / 2, 1 );
     }
     nn.setNbOfInputs( NEURONS / 2 );
     nn.setNbOfOutputs( NEURONS / 2 );
-    nn.randomize();
+    NNFitness fit( real, target );
+    Evolve< NeuralNetwork<>, NNFitness> evo( 100, nn, fit );
+    
+    evo.run( 50 );
 
-    NNFitness f( target );
-    for( size_t i = 0; i < 100; i++ ){
-        f.evaluate( nn, real );
-        cout << "NN fitness between fund and one step is " << nn.getFitness() << endl;
-    }
+    NeuralNetwork<> best = evo.getBest();
+    runRead( transpose( real ), best );
     return 0;
+}
+
+
+void runRead( vector< vector< float > >&& real, NeuralNetwork<>& nn ){
+    vector< vector< float > > values;
+    for( size_t e = 0; e < real.size(); e++ ){
+        for( size_t i = 0; i < NEURONS / 2; i++ ){
+            nn.setValue( i, real[e][i] );
+        }
+        nn.step();
+        
+        values.push_back( nn.getAllOutputs() );
+    }
+    values = transpose( values );
+    writeNumpyArray( values, "./test.stft" );
 }

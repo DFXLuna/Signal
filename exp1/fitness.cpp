@@ -1,26 +1,24 @@
 #include"fitness.h"
-NNFitness::NNFitness( vector< vector< float > >& target ){
+NNFitness::NNFitness( vector< vector< float > >& input, vector< vector< float > >& target ){
     this->target = transpose( target );
+    this->input = transpose( input );
 }
 
-void NNFitness::evaluate( NeuralNetwork<>& nn, vector< vector< float > >& input ){
-    vector< vector< float > > real = transpose( input );
+void NNFitness::evaluate( NeuralNetwork<>& nn ){
     size_t NEURONS = nn.getNeurons().size();
     vector< vector< float > > values;
-    for( size_t e = 0; e < real.size(); e++ ){
+    for( size_t e = 0; e < input.size(); e++ ){
         for( size_t i = 0; i < NEURONS / 2; i++ ){
-            nn.setValue( i, real[e][i] );
+            nn.setValue( i, input[e][i] );
         }
         nn.step();
         
         values.push_back( nn.getAllOutputs() );
     }
-    nn.setFitness( MSE( values ) );
-    // CHANGE THIS
-    input = transpose( values );
+    nn.setFitness( -1 * MSE( values ) );
 }
 
-void NNFitness::setTarget( vector< vector< float > > target ){
+void NNFitness::setTarget( vector< vector< float > >& target ){
     this->target = transpose( target );
 }
 

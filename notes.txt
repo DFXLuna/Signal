@@ -20,3 +20,13 @@ The network was set to not modify the input.
 now operates directly on the STFT values.
 
 - I successfully passed audio through the network, modifying it in the process.
+
+- The fitness function and EA were implemented and a network was evolved to try and add the first harmonic
+- The initial results are very promising. Using 100 individuals and 50 generations, the network was able to 
+generate a fuzzy sounding first harmonic on the diatonic note just above the target( The target is E2 and E3 and the network
+generated F#2 and F#3 ) The runs took about 5 minute each.
+
+- The current network architecture is one layer of 1025 inputs directly connected to 1025 outputs. Each neuron uses
+a leaky relu activation function.
+
+- The next step is to implement a CPPN and see how that affects performance.
