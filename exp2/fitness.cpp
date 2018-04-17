@@ -4,7 +4,7 @@ CPPNFitness::CPPNFitness( vector< vector< float > >& input, vector< vector< floa
     this->input = transpose( input );
 }
 
-void CPPNFitness::evaluate( CPPN& nn ){
+bool CPPNFitness::evaluate( CPPN& nn ){
     size_t NEURONS = nn.getNeurons().size();
     vector< vector< float > > values;
     for( size_t e = 0; e < input.size(); e++ ){
@@ -12,10 +12,10 @@ void CPPNFitness::evaluate( CPPN& nn ){
             nn.setValue( i, input[e][i] );
         }
         nn.step();
-        
         values.push_back( nn.getAllOutputs() );
     }
     nn.setFitness( -1 * MSE( values ) );
+    return true;
 }
 
 void CPPNFitness::setTarget( vector< vector< float > >& target ){

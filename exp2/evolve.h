@@ -7,13 +7,20 @@ using std::vector;
 #include<iostream>
 using std::cout;
 using std::endl;
+#include<future>
+using std::future;
+using std::async;
+#include<ctime>
+using std::time;
+#include"fitness.h"
+
 #include"Misc_Random.hpp"
 
 template< typename indiv_t, typename fitness_t >
 class Evolve {
 public:
     Evolve( size_t popSize, indiv_t& init, fitness_t& fit );
-    void epoch();
+    void epoch( size_t time );
     void run( size_t time );
     void select( vector<indiv_t>& in, vector<indiv_t>& out );
     indiv_t getBest();
@@ -27,20 +34,34 @@ private:
 template< typename indiv_t, typename fitness_t >
 Evolve<indiv_t, fitness_t>::Evolve( size_t popSize, indiv_t& init, fitness_t& fit ): 
 popSize( popSize ), fit( fit ){
+    cout << "Initializing..." << endl;
+    vector< future< bool > > futures;
+    auto start = time( NULL );
     for( size_t i = 0; i < popSize; i++ ){
         population.push_back( init );
         population[i].randomize();
+        cout << "Running eval " << i << "/" << popSize << endl;
         fit.evaluate( population[i] );
+        // futures.push_back( 
+        //     async( [&, i](){ return fit.evaluate( population[i] ); } ) 
+        // );
     }
+    
+    // for( auto& f : futures ){
+    //     cout << "Running eval " << i << "/" << popSize << endl;
+    //     f.get();
+    // }
+    cout << "Time elapsed: " << time( NULL ) - start << " seconds." << endl;
 }
 
 template< typename indiv_t, typename fitness_t >
-void Evolve<indiv_t, fitness_t>::epoch(){
+void Evolve<indiv_t, fitness_t>::epoch( size_t time ){
     vector<indiv_t> parents;
     select( population, parents );
     for( size_t i = 0; i < popSize; i++ ){
         parents.push_back( parents[i] );
         parents[i + popSize].mutate();
+        cout << "Running eval " << i << "/" << popSize * time  << endl;
         fit.evaluate( parents[i + popSize] );
     }
     population.clear();
@@ -49,8 +70,9 @@ void Evolve<indiv_t, fitness_t>::epoch(){
 
 template< typename indiv_t, typename fitness_t >
 void Evolve<indiv_t, fitness_t>::run( size_t time ){
+    cout << endl << "Running task..." << endl;
     for( size_t i = 0; i < time; i++ ){
-        epoch();
+        epoch( time );
         cout << "Fitness of best: " << getBest().getFitness() << endl;
     }
 }
