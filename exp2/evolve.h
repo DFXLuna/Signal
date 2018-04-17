@@ -35,22 +35,21 @@ template< typename indiv_t, typename fitness_t >
 Evolve<indiv_t, fitness_t>::Evolve( size_t popSize, indiv_t& init, fitness_t& fit ): 
 popSize( popSize ), fit( fit ){
     cout << "Initializing..." << endl;
-    vector< future< bool > > futures;
+    //vector< future< bool > > futures;
     auto start = time( NULL );
     for( size_t i = 0; i < popSize; i++ ){
         population.push_back( init );
         population[i].randomize();
-        cout << "Running eval " << i << "/" << popSize << endl;
+        // cout << "Running eval " << i << "/" << popSize << endl;
         fit.evaluate( population[i] );
-        // futures.push_back( 
-        //     async( [&, i](){ return fit.evaluate( population[i] ); } ) 
-        // );
+        //futures.push_back( 
+        //    async( [&, i](){ return fit.evaluate( population[i] ); } ) 
+        //);
     }
     
-    // for( auto& f : futures ){
-    //     cout << "Running eval " << i << "/" << popSize << endl;
-    //     f.get();
-    // }
+    //for( auto& f : futures ){
+    //    f.get();
+    //}
     cout << "Time elapsed: " << time( NULL ) - start << " seconds." << endl;
 }
 

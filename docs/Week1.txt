@@ -1,5 +1,3 @@
-Week 1 notes
-
 - Output of FFT is in whole number frequencies where as musical notes usually have decimal points
 the difference matters less as pitch increases( at ~ 500Hz it becomes difficult to tell ) but, 
 in the effort of creating a bass pedal, this will matter.

@@ -23,9 +23,9 @@ int main(){
     vector< vector< float > > target = readNumpyArray( "./stft/Harm1.stft" );
     CPPN nn( 1025, 1025, -1, 1, .05, .05, 0, 0);
     CPPNFitness fit( real, target );
-    Evolve<CPPN, CPPNFitness> evo( 10, nn, fit );
+    Evolve<CPPN, CPPNFitness> evo( 50, nn, fit );
     
-    evo.run( 1 );
+    evo.run( 50 );
 
     // CPPN best = evo.getBest();
     // runRead( transpose( real ), best );

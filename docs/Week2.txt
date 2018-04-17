@@ -1,0 +1,11 @@
+- A CPPN was implemented using the CPPn code from in class. The code was cleaned up
+- This opened up some problems with performance given that there are 2050 nodes in the simple network,
+so the most basic fully connected, feed forward network has 1025^2 connections.
+
+- To mitigate some of the performance issues, I made the evaluation asynchronous; however, that actually made the code slower.
+This makes sense given the I/O heavy nature of evaluating a network.
+
+- I added the optimization flag to the compilation process and that eliminated the speed issue. However there's still
+a size issue given that each individual is around 35MiB and 2 * populationSize individuals need to be stored in memory 
+at one time. For a population size of 50 individuals, this ends up taking around 3.5GiB of memory. 
+
