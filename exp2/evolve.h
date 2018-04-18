@@ -7,6 +7,8 @@ using std::vector;
 #include<iostream>
 using std::cout;
 using std::endl;
+#include<fstream>
+using std::ofstream;
 #include<future>
 using std::future;
 using std::async;
@@ -40,7 +42,6 @@ popSize( popSize ), fit( fit ){
     for( size_t i = 0; i < popSize; i++ ){
         population.push_back( init );
         population[i].randomize();
-        // cout << "Running eval " << i << "/" << popSize << endl;
         fit.evaluate( population[i] );
         //futures.push_back( 
         //    async( [&, i](){ return fit.evaluate( population[i] ); } ) 
@@ -60,7 +61,6 @@ void Evolve<indiv_t, fitness_t>::epoch(){
     for( size_t i = 0; i < popSize; i++ ){
         parents.push_back( parents[i] );
         parents[i + popSize].mutate();
-        cout << "Running eval " << i << "/" << popSize  << endl;
         fit.evaluate( parents[i + popSize] );
     }
     population.clear();
@@ -70,10 +70,13 @@ void Evolve<indiv_t, fitness_t>::epoch(){
 template< typename indiv_t, typename fitness_t >
 void Evolve<indiv_t, fitness_t>::run( size_t time ){
     cout << endl << "Running task..." << endl;
+    ofstream ofile;
+    ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
     for( size_t i = 0; i < time; i++ ){
         epoch();
-        cout << "Fitness of best: " << getBest().getFitness() << endl;
+        ofile << "Fitness of best: " << getBest().getFitness() << endl;
     }
+    ofile.close();
 }
 
 template< typename indiv_t, typename fitness_t >

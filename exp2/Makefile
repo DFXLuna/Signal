@@ -3,7 +3,7 @@
 # Matt Grant
 
 CXX=g++
-CXXFLAGS=-Wall -std=c++11 -pthread -o1
+CXXFLAGS=-Wall -std=c++11 -pthread -O1
 CXXDFLAGs=-Wall -ggdb -std=c++11
 
 .PHONY: clean

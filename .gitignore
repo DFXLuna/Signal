@@ -8,3 +8,4 @@ FFT/*
 *.o
 main
 *.csv
+*.log
