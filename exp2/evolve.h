@@ -20,7 +20,7 @@ template< typename indiv_t, typename fitness_t >
 class Evolve {
 public:
     Evolve( size_t popSize, indiv_t& init, fitness_t& fit );
-    void epoch( size_t time );
+    void epoch();
     void run( size_t time );
     void select( vector<indiv_t>& in, vector<indiv_t>& out );
     indiv_t getBest();
@@ -54,13 +54,13 @@ popSize( popSize ), fit( fit ){
 }
 
 template< typename indiv_t, typename fitness_t >
-void Evolve<indiv_t, fitness_t>::epoch( size_t time ){
+void Evolve<indiv_t, fitness_t>::epoch(){
     vector<indiv_t> parents;
     select( population, parents );
     for( size_t i = 0; i < popSize; i++ ){
         parents.push_back( parents[i] );
         parents[i + popSize].mutate();
-        cout << "Running eval " << i << "/" << popSize * time  << endl;
+        cout << "Running eval " << i << "/" << popSize  << endl;
         fit.evaluate( parents[i + popSize] );
     }
     population.clear();
@@ -71,7 +71,7 @@ template< typename indiv_t, typename fitness_t >
 void Evolve<indiv_t, fitness_t>::run( size_t time ){
     cout << endl << "Running task..." << endl;
     for( size_t i = 0; i < time; i++ ){
-        epoch( time );
+        epoch();
         cout << "Fitness of best: " << getBest().getFitness() << endl;
     }
 }

@@ -1,7 +1,7 @@
 #include "CPPN.h"
 
 CPPN::CPPN(size_t numberOfInputs, size_t numberOfOutputs, double minWeight, double maxWeight,
-double weightMutRate, double neuronMutRate, double addNeuronMutRate, double addConnectionMutRate):
+double weightMutRate, double neuronMutRate, double addNeuronMutRate, double addConnectionMutRate, double neuronActMutRate):
 NeuralNetwork<CPPN_Neuron, Connection>(numberOfInputs + numberOfOutputs, minWeight, maxWeight, weightMutRate, 
 neuronMutRate, addNeuronMutRate, addConnectionMutRate){
     //Inputs and outputs
@@ -9,12 +9,12 @@ neuronMutRate, addNeuronMutRate, addConnectionMutRate){
     _nbOfOutputs = numberOfOutputs;
 
     //Mutation rates
-    _neuronActMutRate = 0.05;
+    _neuronActMutRate = neuronActMutRate;
 
     //Add initial connections
-    for(size_t i=0; i<_nbOfInputs; ++i){
-        for(size_t j=0; j<_nbOfOutputs; ++j){
-            addConnection(i, _nbOfInputs + j);
+    for( size_t i = 0; i < _nbOfInputs; ++i ){
+        for( size_t j=0; j<_nbOfOutputs; ++j ){
+            addConnection( i, _nbOfInputs + j );
         }
     }
 }
@@ -22,7 +22,7 @@ neuronMutRate, addNeuronMutRate, addConnectionMutRate){
 void CPPN::debugPrint(){
     //Write neurons
     cout << "Neurons: " << endl;
-    for(size_t i=0; i<_neurons.size(); ++i){
+    for( size_t i = 0; i < _neurons.size(); ++i ){
         cout << "Bias: "<< _neurons[i].getBias() << " ";
         cout << " activation function: ";
         switch(_neurons[i].getActivationFunction()){
@@ -46,7 +46,7 @@ void CPPN::debugPrint(){
 
     //Write connections
     cout << "Connections: " << endl;
-    for(size_t i=0; i<_connections.size(); ++i){
+    for( size_t i=0; i<_connections.size(); ++i ){
         cout << "Source :" << _connections[i].getSource()
                 << " target: " << _connections[i].getTarget()
                 << " weight: "<< _connections[i].getWeight() << endl;
@@ -54,23 +54,23 @@ void CPPN::debugPrint(){
 }
 
 void CPPN::randomize(){
-    for(size_t i=_nbOfInputs; i<_neurons.size(); ++i){
+    for( size_t i=_nbOfInputs; i<_neurons.size(); ++i ){
         _neurons[i].setBias(randDouble(_minWeight, _maxWeight));
         _neurons[i].setActivationFunction(CPPN_Neuron::activation_function_t(randInt(CPPN_Neuron::nbActivationFunctions)));
     }
 
-    for(int i=0; i<_connections.size(); ++i){
-        _connections[i].setWeight(randDouble(_minWeight, _maxWeight));
+    for(size_t i = 0; i < _connections.size(); ++i ){
+        _connections[i].setWeight( randDouble( _minWeight, _maxWeight ) );
     }
 }
 
 void CPPN::mutate(){
     _mutateWeights();
     _mutateNeurons();
-    if(randDouble() < _addConnectionMutRate){
+    if( _addConnectionMutRate > 0.0 && randDouble() < _addConnectionMutRate){
         _addRandomConnection();
     }
-    if(randDouble() < _addNeuronMutRate){
+    if( _addNeuronMutRate > 0.0 && randDouble() < _addNeuronMutRate){
         _addRandomNeuron();
     }
 }

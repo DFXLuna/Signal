@@ -9,3 +9,5 @@ This makes sense given the I/O heavy nature of evaluating a network.
 a size issue given that each individual is around 35MiB and 2 * populationSize individuals need to be stored in memory 
 at one time. For a population size of 50 individuals, this ends up taking around 3.5GiB of memory. 
 
+- Time was spent optimizing performance. Time per evaluation is down from 100 seconds / eval to 10 seconds / eval.
+- There is a possible memory leak.

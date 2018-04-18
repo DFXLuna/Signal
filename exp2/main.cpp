@@ -14,18 +14,15 @@ using std::ofstream;
 
 void runRead( vector< vector< float > >&& real, CPPN& nn );
 
-
-//TODO
-// debug epoch/ cppn
 int main(){
 
     vector< vector< float > > real = readNumpyArray( "./stft/fund.stft" );
     vector< vector< float > > target = readNumpyArray( "./stft/Harm1.stft" );
-    CPPN nn( 1025, 1025, -1, 1, .05, .05, 0, 0);
+    CPPN nn( 1025, 1025, -1, 1, .05, .05, .05, .05, .05);
     CPPNFitness fit( real, target );
-    Evolve<CPPN, CPPNFitness> evo( 50, nn, fit );
+    Evolve<CPPN, CPPNFitness> evo( 10, nn, fit );
     
-    evo.run( 50 );
+    evo.run( 100 );
 
     // CPPN best = evo.getBest();
     // runRead( transpose( real ), best );

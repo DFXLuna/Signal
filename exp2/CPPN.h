@@ -26,7 +26,8 @@ class CPPN: public NeuralNetwork<CPPN_Neuron, Connection> {
 public:
 
     CPPN(size_t numberOfInputs, size_t numberOfOutputs, double minWeight = 0.0, double maxWeight = 0.0,
-    double weightMutRate = 0.0, double neuronMutRate = 0.0, double addNeuronMutRate = 0.0, double addConnectionMutRate = 0.0);
+    double weightMutRate = 0.0, double neuronMutRate = 0.0, double addNeuronMutRate = 0.0, double addConnectionMutRate = 0.0,
+    double neuronActMutRate = 0.0);
 
     void debugPrint();
 

@@ -239,7 +239,7 @@ void NeuralNetwork<Neuron_t, Connection_t>::setValue(size_t neuronIndex, double 
 
 template< typename Neuron_t, typename Connection_t >
 double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
-    if(neuronIndex >= _neurons.size()){
+    if( neuronIndex >= _neurons.size() ){
         std::cerr << "Ind_NeuralNetwork.hpp: Index out of bounds! Index: " 
         << neuronIndex << " size: " << _neurons.size() << std::endl;
     }
@@ -249,7 +249,7 @@ double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
 template< typename Neuron_t, typename Connection_t >
 vector<float> NeuralNetwork<Neuron_t, Connection_t>::getAllOutputs(){
     vector<float> ret;
-    for( size_t i = _nbOfInputs; i < _neurons.size(); i++ ){
+    for( size_t i = _nbOfInputs; i < _neurons.size(); ++i ){
         ret.push_back( _neurons[i].getValue() );
     }
     return ret;
@@ -271,7 +271,7 @@ double NeuralNetwork<Neuron_t, Connection_t>::getOutputValue(size_t neuronIndex)
         std::cerr << "Index goes beyond outputs! Index: " 
         << neuronIndex << " size: " << _nbOfOutputs << std::endl;
     }
-    return getValue(_nbOfInputs + neuronIndex);
+    return getValue( _nbOfInputs + neuronIndex );
 }
 
 template< typename Neuron_t, typename Connection_t >
