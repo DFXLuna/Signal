@@ -92,6 +92,15 @@ size_t CPPN::getDepth(){
     return maxDepth;
 }
 
+
+vector<float> CPPN::getAllOutputs(){
+    vector<float> ret;
+    for( size_t i = _nbOfInputs; i < _nbOfInputs + _nbOfOutputs; ++i ){
+        ret.push_back( _neurons[i].getValue() );
+    }
+    return ret;
+}
+
 void CPPN::_mutateNeurons(){
     for(size_t i=_nbOfInputs; i<_neurons.size(); ++i){
         if(randDouble() < _neuronMutRate){
