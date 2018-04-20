@@ -7,7 +7,21 @@ This makes sense given the I/O heavy nature of evaluating a network.
 
 - I added the optimization flag to the compilation process and that eliminated the speed issue. However there's still
 a size issue given that each individual is around 35MiB and 2 * populationSize individuals need to be stored in memory 
-at one time. For a population size of 50 individuals, this ends up taking around 3.5GiB of memory. 
+at one time. For a population size of 50 individuals, this should take around 3.5GiB of memory. In practice, it approaches 10GiB.
 
-- Time was spent optimizing performance. Time per evaluation is down from 100 seconds / eval to 10 seconds / eval.
-- There is a possible memory leak.
+- Time was spent optimizing performance. Time per evaluation(CPPN) is down from 100 seconds / eval to 10 seconds / eval.
+
+- Evaluating the CPPN with 10 individuals for 600 generations gave significantly worse results than the basic
+neural network from week one. The simple network started at at fitness of -80(closer to 0 is better) and, after 20 generations,
+arrived at a fitness of -23. The CPPN started at -46 fitness and, after 600 generations, arrived at a fitness of -44.
+
+- This matches the intuition that using a complex solution for a simple problem ( adding a single harmonic ) will give
+less than ideal results. I'll be returning to the simple network for the rest of the harmonic generation experiment. However,
+I think the CPPN will fare better on the more complex task of duplicating the bass guitar sound.
+
+- My current task is optimizing the mutation rates and min/max weights for the basic network
+
+- In a completely scientific undertaking, I ran different parameter configurations for 500 generations with 10 individuals. Some combinations yielded signifcanly better results than others. Apparently it takes 25000 generations and 8 hours of compute time to figure that out.
+
+- The goal for next week is to experiment and find a good architecture for generalizing the network to find the first harmonic
+for any given note( as opposed to finding the first harmonic on just E2 ).

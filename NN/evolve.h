@@ -14,8 +14,6 @@ using std::future;
 using std::async;
 #include<ctime>
 using std::time;
-#include<sstream>
-using std::stringstream;
 #include"fitness.h"
 
 #include"Misc_Random.hpp"
@@ -25,7 +23,7 @@ class Evolve {
 public:
     Evolve( size_t popSize, indiv_t& init, fitness_t& fit );
     void epoch();
-    void run( size_t time, size_t runNumber );
+    void run( size_t time );
     void select( vector<indiv_t>& in, vector<indiv_t>& out );
     indiv_t getBest();
 
@@ -70,18 +68,13 @@ void Evolve<indiv_t, fitness_t>::epoch(){
 }
 
 template< typename indiv_t, typename fitness_t >
-void Evolve<indiv_t, fitness_t>::run( size_t time, size_t runNumber ){
+void Evolve<indiv_t, fitness_t>::run( size_t time ){
     cout << endl << "Running task..." << endl;
-    
     ofstream ofile;
-    stringstream fName;
-    fName << "run" << runNumber << ".log";
-    
-    ofile.open( fName.str(), std::ofstream::out | std::ofstream::app );
+    ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
     for( size_t i = 0; i < time; i++ ){
-        cout << "Run " << i << " of " << time - 1 << endl;
         epoch();
-        ofile << getBest().getFitness() << endl;
+        ofile << "Fitness of best: " << getBest().getFitness() << endl;
     }
     ofile.close();
 }

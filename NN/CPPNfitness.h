@@ -7,13 +7,13 @@ using std::size_t;
 #include<iostream>
 using std::cout;
 using std::endl;
-#include"neuralnetwork.h"
+#include"CPPN.h"
 #include"numpyIO.h"
 
-class NNFitness {
+class CPPNFitness {
 public:
-    NNFitness( vector< vector< float > >& input, vector< vector< float > >& target );
-    bool evaluate( NeuralNetwork<>& nn );
+    CPPNFitness( vector< vector< float > >& input, vector< vector< float > >& target );
+    bool evaluate( CPPN& nn );
     void setTarget( vector< vector< float > >& target );
     double MSE( vector< vector< float > >& pred );
 private:

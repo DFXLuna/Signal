@@ -1,10 +1,10 @@
 #include"fitness.h"
-NNFitness::NNFitness( vector< vector< float > >& input, vector< vector< float > >& target ){
+CPPNFitness::CPPNFitness( vector< vector< float > >& input, vector< vector< float > >& target ){
     this->target = transpose( target );
     this->input = transpose( input );
 }
 
-bool NNFitness::evaluate( NeuralNetwork<>& nn ){
+bool CPPNFitness::evaluate( CPPN& nn ){
     size_t NEURONS = nn.getNeurons().size();
     vector< vector< float > > values;
     for( size_t e = 0; e < input.size(); ++e ){
@@ -18,11 +18,11 @@ bool NNFitness::evaluate( NeuralNetwork<>& nn ){
     return true;
 }
 
-void NNFitness::setTarget( vector< vector< float > >& target ){
+void CPPNFitness::setTarget( vector< vector< float > >& target ){
     this->target = transpose( target );
 }
 
-double NNFitness::MSE( vector< vector< float > >& pred ){
+double CPPNFitness::MSE( vector< vector< float > >& pred ){
     double ret = 0;
     for( size_t i = 0; i < pred.size(); ++i ){
         for( size_t j = 0; j < pred[i].size(); ++j ){
