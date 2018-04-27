@@ -1,0 +1,17 @@
+- I spent a little while working with the data I gathered from last week. It needed to be formatted, so I wrote a python
+script for that.
+
+- This week I will transition to working with real samples from the bass guitar. I would like to spend more time working
+with the synthetic samples but I don't have enough time for that.
+
+- Instead of recording all 200 samples( 100 clean and 100 with distortion ). I'm going to record a few of each and see what I
+can get out of those before wasting time recording more.
+
+- 4 samples with and without distortion were made. 
+
+- Something very strange has happened. The scripts I've been using to read and write stft data have suddenly stopped working.
+This is very strange given that I haven't touched them, and can verify they haven't changed. I've checked on a second machine
+and the problem persists, so i must've changed something somewhere.
+
+- The issue was a loss of data when taking the absolute value of the stft data before writing it to a file. It has been
+fixed but presents some larger problems, mostly dealing with complex values in the input to my network.
