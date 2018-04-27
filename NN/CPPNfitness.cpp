@@ -1,12 +1,12 @@
 #include"fitness.h"
-CPPNFitness::CPPNFitness( vector< vector< float > >& input, vector< vector< float > >& target ){
+CPPNFitness::CPPNFitness( vector< vector< double > >& input, vector< vector< double > >& target ){
     this->target = transpose( target );
     this->input = transpose( input );
 }
 
 bool CPPNFitness::evaluate( CPPN& nn ){
     size_t NEURONS = nn.getNeurons().size();
-    vector< vector< float > > values;
+    vector< vector< double > > values;
     for( size_t e = 0; e < input.size(); ++e ){
         for( size_t i = 0; i < NEURONS / 2; ++i ){
             nn.setValue( i, input[e][i] );
@@ -18,11 +18,11 @@ bool CPPNFitness::evaluate( CPPN& nn ){
     return true;
 }
 
-void CPPNFitness::setTarget( vector< vector< float > >& target ){
+void CPPNFitness::setTarget( vector< vector< double > >& target ){
     this->target = transpose( target );
 }
 
-double CPPNFitness::MSE( vector< vector< float > >& pred ){
+double CPPNFitness::MSE( vector< vector< double > >& pred ){
     double ret = 0;
     for( size_t i = 0; i < pred.size(); ++i ){
         for( size_t j = 0; j < pred[i].size(); ++j ){

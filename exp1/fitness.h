@@ -9,14 +9,14 @@ using std::size_t;
 
 class NNFitness {
 public:
-    NNFitness( vector< vector< float > >& input, vector< vector< float > >& target );
+    NNFitness( vector< vector< double > >& input, vector< vector< double > >& target );
     void evaluate( NeuralNetwork<>& nn );
-    void setTarget( vector< vector< float > >& target );
-    double MSE( vector< vector< float > >& pred );
-    double diff( vector< vector< float > >& pred );
+    void setTarget( vector< vector< double > >& target );
+    double MSE( vector< vector< double > >& pred );
+    double diff( vector< vector< double > >& pred );
 private:
-    vector< vector< float > > target;
-    vector< vector< float > > input;
+    vector< vector< double > > target;
+    vector< vector< double > > input;
 };
 
 #endif

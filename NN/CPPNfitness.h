@@ -12,13 +12,13 @@ using std::endl;
 
 class CPPNFitness {
 public:
-    CPPNFitness( vector< vector< float > >& input, vector< vector< float > >& target );
+    CPPNFitness( vector< vector< double > >& input, vector< vector< double > >& target );
     bool evaluate( CPPN& nn );
-    void setTarget( vector< vector< float > >& target );
-    double MSE( vector< vector< float > >& pred );
+    void setTarget( vector< vector< double > >& target );
+    double MSE( vector< vector< double > >& pred );
 private:
-    vector< vector< float > > target;
-    vector< vector< float > > input;
+    vector< vector< double > > target;
+    vector< vector< double > > input;
 };
 
 #endif

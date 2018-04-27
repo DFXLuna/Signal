@@ -12,12 +12,12 @@ using std::ofstream;
 #include"CPPNfitness.h"
 #include"evolve.h"
 
-void runRead( vector< vector< float > >&& real, CPPN& nn );
+void runRead( vector< vector< double > >&& real, CPPN& nn );
 
 int main(){
 
-    vector< vector< float > > real = readNumpyArray( "./stft/fund.stft" );
-    vector< vector< float > > target = readNumpyArray( "./stft/Harm1.stft" );
+    vector< vector< double > > real = readNumpyArray( "./stft/fund.stft" );
+    vector< vector< double > > target = readNumpyArray( "./stft/Harm1.stft" );
     CPPN nn( 1025, 1025, -1, 1, .05, .05, .05, .05, .05);
     CPPNFitness fit( real, target );
     Evolve<CPPN, CPPNFitness> evo( 20, nn, fit );
@@ -30,8 +30,8 @@ int main(){
 }
 
 
-void runRead( vector< vector< float > >&& real, CPPN& nn ){
-    vector< vector< float > > values;
+void runRead( vector< vector< double > >&& real, CPPN& nn ){
+    vector< vector< double > > values;
     for( size_t e = 0; e < real.size(); ++e ){
         for( size_t i = 0; i < 1025; ++i ){
             nn.setValue( i, real[e][i] );

@@ -48,7 +48,7 @@ public:
 
     void setValue(size_t neuronIndex, double value);
     double getValue(size_t neuronIndex);
-    vector< float > getAllOutputs();
+    vector< double > getAllOutputs();
 
     void setAddNeuronMutationRate(double addNeuronMutRate);
     void setAddConnectionMutationRate(double addConnectionMutRate);
@@ -247,8 +247,8 @@ double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
 }
 
 template< typename Neuron_t, typename Connection_t >
-vector<float> NeuralNetwork<Neuron_t, Connection_t>::getAllOutputs(){
-    vector<float> ret;
+vector<double> NeuralNetwork<Neuron_t, Connection_t>::getAllOutputs(){
+    vector<double> ret;
     for( size_t i = _nbOfInputs; i < _neurons.size(); i++ ){
         ret.push_back( _neurons[i].getValue() );
     }

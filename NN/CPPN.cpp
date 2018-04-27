@@ -93,8 +93,8 @@ size_t CPPN::getDepth(){
 }
 
 
-vector<float> CPPN::getAllOutputs(){
-    vector<float> ret;
+vector<double> CPPN::getAllOutputs(){
+    vector<double> ret;
     for( size_t i = _nbOfInputs; i < _nbOfInputs + _nbOfOutputs; ++i ){
         ret.push_back( _neurons[i].getValue() );
     }

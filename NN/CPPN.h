@@ -37,7 +37,7 @@ public:
 
     size_t getDepth();
 
-    vector< float > getAllOutputs();
+    vector< double > getAllOutputs();
 
 protected:
     double _neuronActMutRate;
