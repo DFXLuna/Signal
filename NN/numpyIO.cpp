@@ -1,29 +1,29 @@
 #include"numpyIO.h"
 
-vector< vector< float > > readNumpyArray( string filePath ){
+vector< vector< double > > readNumpyArray( string filePath ){
     ifstream in;
     in.open( filePath );
-    vector< vector< float> > ret;
+    vector< vector< double > > ret;
 
     if( !in.is_open() ){ 
         cerr << "Error opening " << filePath << " in readNumpyArray." << endl;
         in.close();
-        return vector< vector< float > >();
+        return vector< vector< double > >();
     }
 
     string line;
     while( !in.eof() ){
-        vector<float> floats;
+        vector<double> doubles;
         getline( in, line );
         
         istringstream linestream( line );
-        float x;
+        double x;
         while( !linestream.eof() ){
             linestream >> x;
-            floats.push_back( x );
+            doubles.push_back( x );
         }
-        if( floats.size() > 0 ){
-            ret.push_back( floats );
+        if( doubles.size() > 0 ){
+            ret.push_back( doubles );
         }
 
     }
@@ -31,7 +31,7 @@ vector< vector< float > > readNumpyArray( string filePath ){
     return ret;
 }
 
-void writeNumpyArray( const vector< vector< float > >& m, string filePath ){
+void writeNumpyArray( const vector< vector< double > >& m, string filePath ){
     ofstream out;
     out.open( filePath );
     
@@ -54,10 +54,10 @@ void writeNumpyArray( const vector< vector< float > >& m, string filePath ){
     out.close();
 }
 
-vector< vector< float > > transpose( const vector< vector< float > >& m ){
-    vector< vector< float > > ret;
+vector< vector< double > > transpose( const vector< vector< double > >& m ){
+    vector< vector< double > > ret;
     for( size_t i = 0; i < m[0].size(); i++ ){
-        vector<float> row;
+        vector<double> row;
         for( size_t j = 0; j < m.size(); j++ ){
             row.push_back( m[j][i] );
         }
