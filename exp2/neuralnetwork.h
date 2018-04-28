@@ -249,7 +249,7 @@ double NeuralNetwork<Neuron_t, Connection_t>::getValue(size_t neuronIndex){
 template< typename Neuron_t, typename Connection_t >
 vector<double> NeuralNetwork<Neuron_t, Connection_t>::getAllOutputs(){
     vector<double> ret;
-    for( size_t i = _nbOfInputs; i < _neurons.size(); i++ ){
+    for( size_t i = _nbOfInputs; i < _nbOfOutputs; i++ ){
         ret.push_back( _neurons[i].getValue() );
     }
     return ret;

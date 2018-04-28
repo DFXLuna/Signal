@@ -27,3 +27,5 @@ so I have to do some more input processing first.
     - Store the real coefficient at output[i,j] and the imaginary coefficient at output[i,j+376] where 376 is the amount of real coeffecients
 
 - I have successfully encoded and decoded data in this way with no loss.
+
+- Because I'm an incredible programmer the network needed no changes to facilitate this
