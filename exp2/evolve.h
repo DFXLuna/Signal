@@ -14,8 +14,6 @@ using std::future;
 using std::async;
 #include<ctime>
 using std::time;
-#include<sstream>
-using std::stringstream;
 #include"fitness.h"
 
 #include"Misc_Random.hpp"
@@ -25,7 +23,7 @@ class Evolve {
 public:
     Evolve( size_t popSize, indiv_t& init, fitness_t& fit );
     void epoch();
-    void run( size_t time, size_t runNumber );
+    void run( size_t time );
     void select( vector<indiv_t>& in, vector<indiv_t>& out );
     indiv_t getBest();
 
@@ -39,20 +37,14 @@ template< typename indiv_t, typename fitness_t >
 Evolve<indiv_t, fitness_t>::Evolve( size_t popSize, indiv_t& init, fitness_t& fit ): 
 popSize( popSize ), fit( fit ){
     cout << "Initializing..." << endl;
-    //vector< future< bool > > futures;
+    
     auto start = time( NULL );
     for( size_t i = 0; i < popSize; i++ ){
         population.push_back( init );
         population[i].randomize();
         fit.evaluate( population[i] );
-        //futures.push_back( 
-        //    async( [&, i](){ return fit.evaluate( population[i] ); } ) 
-        //);
     }
-    
-    //for( auto& f : futures ){
-    //    f.get();
-    //}
+
     cout << "Time elapsed: " << time( NULL ) - start << " seconds." << endl;
 }
 
@@ -70,20 +62,15 @@ void Evolve<indiv_t, fitness_t>::epoch(){
 }
 
 template< typename indiv_t, typename fitness_t >
-void Evolve<indiv_t, fitness_t>::run( size_t time, size_t runNumber ){
+void Evolve<indiv_t, fitness_t>::run( size_t time ){
     cout << endl << "Running task..." << endl;
-    
-    ofstream ofile;
-    stringstream fName;
-    fName << "run" << runNumber << ".log";
-    
-    ofile.open( fName.str(), std::ofstream::out | std::ofstream::app );
+    //ofstream ofile;
+    //ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
     for( size_t i = 0; i < time; i++ ){
-        cout << "Run " << i << " of " << time - 1 << endl;
         epoch();
-        ofile << getBest().getFitness() << endl;
+        cout << "Fitness of best: " << getBest().getFitness() << endl;
     }
-    ofile.close();
+    //ofile.close();
 }
 
 template< typename indiv_t, typename fitness_t >

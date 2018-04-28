@@ -27,7 +27,7 @@ int main(){
     NNFitness fit( real, target );
     Evolve< NeuralNetwork<>, NNFitness> evo( 100, nn, fit );
     
-    evo.run( 50 );
+    evo.run( 100 );
 
     NeuralNetwork<> best = evo.getBest();
     runRead( transpose( real ), best );

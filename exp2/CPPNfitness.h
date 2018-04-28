@@ -4,16 +4,18 @@
 using std::vector;
 #include<cstddef>
 using std::size_t;
-#include"neuralnetwork.h"
+#include<iostream>
+using std::cout;
+using std::endl;
+#include"CPPN.h"
 #include"numpyIO.h"
 
-class NNFitness {
+class CPPNFitness {
 public:
-    NNFitness( vector< vector< double > >& input, vector< vector< double > >& target );
-    void evaluate( NeuralNetwork<>& nn );
+    CPPNFitness( vector< vector< double > >& input, vector< vector< double > >& target );
+    bool evaluate( CPPN& nn );
     void setTarget( vector< vector< double > >& target );
     double MSE( vector< vector< double > >& pred );
-    double diff( vector< vector< double > >& pred );
 private:
     vector< vector< double > > target;
     vector< vector< double > > input;

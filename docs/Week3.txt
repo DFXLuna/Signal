@@ -15,3 +15,15 @@ and the problem persists, so i must've changed something somewhere.
 
 - The issue was a loss of data when taking the absolute value of the stft data before writing it to a file. It has been
 fixed but presents some larger problems, mostly dealing with complex values in the input to my network.
+
+- My first instinct was to just cast the 64 bit complex values to 64 double floating point values and have the network
+figure out the relationship between them but it turns out that that space is a little too vague and the mean squared
+error between a basic fundamental signal and that same signal with the octave harmonic is something like 3*10^35
+so I have to do some more input processing first.
+
+- The solution I have come up with is as follows:
+    - stft data is an array of complex numbers in the format ( x + yj ) where x and y are floats and j is the imaginary sqrt(-1)
+    - The stft of the input is taken, then for every value in the array(i,j), get the coefficients for the real and imaginary part( x and y )
+    - Store the real coefficient at output[i,j] and the imaginary coefficient at output[i,j+376] where 376 is the amount of real coeffecients
+
+- I have successfully encoded and decoded data in this way with no loss.

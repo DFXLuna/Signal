@@ -15,8 +15,8 @@ using std::ostringstream;
 using std::cerr;
 using std::endl;
 
-vector< vector< float > > readNumpyArray( string filePath );
-vector< vector< float > > transpose( const vector< vector< float > >& m );
-void writeNumpyArray( const vector< vector< float > >& m, string filePath );
+vector< vector< double > > readNumpyArray( string filePath );
+vector< vector< double > > transpose( const vector< vector< double > >& m );
+void writeNumpyArray( const vector< vector< double > >& m, string filePath );
 
 #endif
