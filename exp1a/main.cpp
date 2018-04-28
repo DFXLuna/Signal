@@ -12,13 +12,20 @@ using std::ofstream;
 void runRead( vector< vector< double > >&& real, NeuralNetwork<>& nn );
 
 int main(){
+    seed();
     vector< vector< double > > real = readNumpyArray( "./stft/fund.stft" );
     vector< vector< double > > target = readNumpyArray( "./stft/Harm1.stft" );
-    NeuralNetwork<> nn( 2050, -1, 1, 0.05, 0.05, 0.05, 0.05 );
+    NeuralNetwork<> nn( 2050, -5, 5, 0.05, 0.05, 0.05, 0.05 );
+    for( size_t i = 0; i < 1025; i++ ){
+        nn.addConnection( i, i + 1025, 1 );
+    }
+    nn.setNbOfInputs( 1025 );
+    nn.setNbOfOutputs( 1025 );
+
     NNFitness fit( real, target );
-    Evolve<NeuralNetwork<>, NNFitness> evo( 5, nn, fit );
+    Evolve<NeuralNetwork<>, NNFitness> evo( 40, nn, fit );
     
-    evo.run( 10 );
+    evo.scaleRun( 10 );
 
     NeuralNetwork<> best = evo.getBest();
     runRead( transpose( real ), best );

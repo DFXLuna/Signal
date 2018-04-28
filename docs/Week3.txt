@@ -29,3 +29,7 @@ so I have to do some more input processing first.
 - I have successfully encoded and decoded data in this way with no loss.
 
 - Because I'm an incredible programmer the network needed no changes to facilitate this
+
+- I've added simple parameter scaling to my network, so the mutation rates scale down over time. I've found that
+this leads to large fitness leaps early on as broad catagories of behaviors are found, and more constant progress later
+on as behaviors are refined.

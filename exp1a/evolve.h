@@ -24,6 +24,7 @@ public:
     Evolve( size_t popSize, indiv_t& init, fitness_t& fit );
     void epoch();
     void run( size_t time );
+    void scaleRun( size_t time );
     void select( vector<indiv_t>& in, vector<indiv_t>& out );
     indiv_t getBest();
 
@@ -69,6 +70,22 @@ void Evolve<indiv_t, fitness_t>::run( size_t time ){
     for( size_t i = 0; i < time; i++ ){
         epoch();
         cout << "Fitness of best: " << getBest().getFitness() << endl;
+    }
+    //ofile.close();
+}
+
+template< typename indiv_t, typename fitness_t >
+void Evolve<indiv_t, fitness_t>::scaleRun( size_t time ){
+    cout << endl << "Running task..." << endl;
+    //ofstream ofile;
+    //ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
+    for( size_t i = 0; i < time; i++ ){
+        epoch();
+        cout << "Fitness of best: " << getBest().getFitness() << endl;
+        for( auto& p : population ){
+            p.setWeightMutationRate( .5 - ( i / time ) * .5 );
+            p.setNeuronMutationRate( .5 - ( i / time ) * .5 );
+        }
     }
     //ofile.close();
 }
