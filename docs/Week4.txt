@@ -1,0 +1,2 @@
+- The goal of the final week is to make the transition to working with real world signals. Also I want to see what happens
+when I apply output smoothing.
