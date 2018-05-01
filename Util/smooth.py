@@ -10,7 +10,7 @@ data = np.empty( [1025, 376], np.complex64 )
 for i in range( 0, 1025 ):
     for j in range( 0, 376 ):
         data[i,j] = filedata[i,j] + ( filedata[i,j+376] *1j )
-        if np.abs( data[i,j] ) <= 7:
+        if np.abs( data[i,j] ) <= float(sys.argv[3]):
             data[i,j] = 0
 
 wav = librosa.core.istft( data )

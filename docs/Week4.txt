@@ -1,2 +1,24 @@
 - The goal of the final week is to make the transition to working with real world signals. Also I want to see what happens
 when I apply output smoothing.
+
+- Smoothing works pretty well with basic signals but I don't think it'll be very effective with the purposefully distorted signals
+
+- Step one is to apply the basic network to signals, step two is to try a hand designed network arch
+- I'm considering the following
+1025 -> straight -> 205 -> fully -> 205 -> straight -> 1025
+  |> ->          ->     ->       ->     ->          -> |^
+
+- The transition was surprisingly successful. The results of the simple network are astonishing after applying noise filtering.
+I have high hopes for the other arch.
+
+- The first test of the new arch is absolutely awful. Fitness values in the simple network are usually between -8 and -40
+This test started at -45000 and made it to -8000.
+
+- After some minor tweaks the network is now performaing nominally.
+
+- The new architecture beat the previous best fitness (achieved in 500 generations) in 33 generations.
+
+- Listening back to the results: the new arch puts more emphasis on the harmonics, which is neat
+
+- With the new arch, scaling is no longer relevant because the network naturally starts very close to the optimal output.
+

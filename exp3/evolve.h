@@ -65,29 +65,31 @@ void Evolve<indiv_t, fitness_t>::epoch(){
 template< typename indiv_t, typename fitness_t >
 void Evolve<indiv_t, fitness_t>::run( size_t time ){
     cout << endl << "Running task..." << endl;
-    //ofstream ofile;
-    //ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
+    ofstream ofile;
+    ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
     for( size_t i = 0; i < time; i++ ){
         epoch();
-        cout << "Fitness of best: " << getBest().getFitness() << endl;
+        ofile << getBest().getFitness() << endl;
+        //cout << "Fitness of best: " << getBest().getFitness() << endl;
     }
-    //ofile.close();
+    ofile.close();
 }
 
 template< typename indiv_t, typename fitness_t >
 void Evolve<indiv_t, fitness_t>::scaleRun( size_t time ){
     cout << endl << "Running task..." << endl;
-    //ofstream ofile;
-    //ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
+    ofstream ofile;
+    ofile.open("run0.log", std::ofstream::out | std::ofstream::app );
     for( size_t i = 0; i < time; i++ ){
         epoch();
-        cout << "Fitness of best: " << getBest().getFitness() << endl;
+        ofile << getBest().getFitness() << endl;
+        //cout << "Fitness of best: " << getBest().getFitness() << endl;
         for( auto& p : population ){
-            p.setWeightMutationRate( .5 - ( i / time ) * .5 );
-            p.setNeuronMutationRate( .5 - ( i / time ) * .5 );
+            p.setWeightMutationRate( ( .45 - ( i / time ) * .45 ) + .05 );
+            p.setNeuronMutationRate( ( .45 - ( i / time ) * .45 ) + .05 );
         }
     }
-    //ofile.close();
+    ofile.close();
 }
 
 template< typename indiv_t, typename fitness_t >
