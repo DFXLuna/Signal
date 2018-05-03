@@ -13,8 +13,8 @@ void runRead( vector< vector< double > >&& real, NeuralNetwork<>& nn );
 
 int main(){
     seed();
-    vector< vector< double > > real = readNumpyArray( "./stft/AClean.stft" );
-    vector< vector< double > > target = readNumpyArray( "./stft/ADist.stft" );
+    vector< vector< double > > real = readNumpyArray( "./stft/GClean.stft" );
+    vector< vector< double > > target = readNumpyArray( "./stft/GDist.stft" );
     NeuralNetwork<> nn( 2050 + 410, -1, 1, 0.05, 0.05, 0.05, 0.05 );
     // Connect input to first conv layer and output
     for( size_t i = 0; i < 1025; i++ ){
